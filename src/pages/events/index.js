@@ -80,6 +80,10 @@ const Page = () => {
     setRowsPerPage(event.target.value);
   }, []);
 
+  const report = (event) => {
+    router.push(`/events/report/${event.id_event}`);
+  }
+
   const eventId = (event) => {
     router.push(`/events/edit/${event.id_event}`);
   };
@@ -154,6 +158,7 @@ const Page = () => {
                     rowsPerPageOptions={[5, 10, 25, 100]}
                     eventId={eventId}
                     deleteEvent={deleteEvent}
+                    report={report}
                   />
                 )}
               </Grid>

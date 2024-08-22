@@ -41,6 +41,11 @@ const URI = {
       },
       sponsors: {
         src: `${domain}/api/v2/events/${id}/sponsors`,
+      },
+      reports: {
+        speakers: `${domain}/api/v2/events/${id}/speakers/json`,
+        conferences: `${domain}/api/v2/events/${id}/conferences/json`,
+        sponsors: `${domain}/api/v2/events/${id}/sponsors/json`,
       }
     }),
   },

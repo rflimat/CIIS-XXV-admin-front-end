@@ -16,6 +16,7 @@ import { Scrollbar } from "src/components/scrollbar";
 
 import React from "react";
 
+import DescriptionIcon from '@mui/icons-material/Description';
 import EditIcon from '@mui/icons-material/Edit';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { format } from "date-fns";
@@ -29,7 +30,8 @@ export const EventsTable = (props) => {
     page = 0,
     rowsPerPage = 10,
     eventId = function () {},
-    deleteEvent = function () {}
+    deleteEvent = function () {},
+    report = function () {}
   } = props;
 
   return (
@@ -43,7 +45,6 @@ export const EventsTable = (props) => {
                 <TableCell>Lugar</TableCell>
                 <TableCell>Fecha Inicio</TableCell>
                 <TableCell>Fecha Fin</TableCell>
-                <TableCell>Precio</TableCell>
                 <TableCell>Activo</TableCell>
                 <TableCell>Acción</TableCell>
               </TableRow>
@@ -64,9 +65,11 @@ export const EventsTable = (props) => {
                     <TableCell>
                       {format(new Date(event.exp_date), 'dd/MM/yyyy')}
                     </TableCell>
-                    <TableCell>{event.price ? ("S/." + event.price) : ""}</TableCell>
                     <TableCell>{event.active ? "Si" : "No"}</TableCell>
                     <TableCell>
+                      <IconButton onClick={() => report(event)}>
+                        <DescriptionIcon></DescriptionIcon>
+                      </IconButton>
                       <IconButton onClick={() => eventId(event)}>
                         <EditIcon></EditIcon>
                       </IconButton>

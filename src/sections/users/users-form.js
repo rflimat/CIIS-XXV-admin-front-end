@@ -14,9 +14,11 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
+import { useRouter } from "next/router";
 
 export const UsersForm = ({ user, handleSubmit = () => {} }) => {
   const [role, setRole] = useState(0);
+  const router = useRouter();
 
   const handleChangeRole = (event) => {
     setRole(Number(event.target.value));
@@ -122,6 +124,11 @@ export const UsersForm = ({ user, handleSubmit = () => {} }) => {
               <CardActions sx={{ justifyContent: "flex-end" }}>
                 <Button type="submit" variant="contained">
                   Guardar
+                </Button>
+                <Button type="button" variant="secondary" onClick={() => {
+                  router.push("/users")
+                }}>
+                  Cancelar
                 </Button>
               </CardActions>
             </Card>

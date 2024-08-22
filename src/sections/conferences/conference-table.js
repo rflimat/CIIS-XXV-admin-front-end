@@ -52,55 +52,6 @@ export const ConferenceTable = (props) => {
     deleteConference = function () {}
   } = props;
 
-  const typeIns = ["", "Legado de la ESIS", "Estudiante externo", "Publico general"];
-  const statusContent = [
-    { style: "rgb(219, 129, 10)", label: "Pendiente" },
-    { style: "rgb(0,200,0)", label: "Confirmado" },
-    { style: "rgb(200,20,0)", label: "Observado" },
-  ];
-
-  const [currentImages, setCurrentImages] = useState({});
-  const [openGallery, setOpenGallery] = useState(false);
-
-  const [openForm, setOpenForm] = useState(false);
-  const [conference2edit, setConference2edit] = useState(items[0]);
-
-  const handleChangeStatus = ({ id }, status, idx) => {
-    let buttonCheck = document.getElementById("btn-check-conference-" + id);
-    let buttonAlert = document.getElementById("btn-alert-conference-" + id);
-    buttonCheck.disabled = true;
-    buttonAlert.disabled = true;
-    buttonCheck.classList.add("Mui-disabled");
-    buttonAlert.classList.add("Mui-disabled");
-
-    fetch(URI.registrations + `/${id}/status`, {
-      method: "PATCH",
-      body: JSON.stringify({ status }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    })
-      .then((res) => {
-        if (res.ok) {
-          handleSetCounter();
-        } else {
-          buttonCheck.disabled = false;
-          buttonAlert.disabled = false;
-          buttonCheck.classList.remove("Mui-disabled");
-          buttonAlert.classList.remove("Mui-disabled");
-        }
-      })
-      .catch((res) => {
-        console.log(res);
-      });
-  };
-
-  const handleOpenForm = (conference) => {
-    setOpenForm(true);
-    setConference2edit(conference);
-  };
-
   return (
     <Card>
       <Scrollbar>
@@ -111,6 +62,7 @@ export const ConferenceTable = (props) => {
                 <TableCell>Tema</TableCell>
                 <TableCell>Fecha Inicio</TableCell>
                 <TableCell>Fecha Fin</TableCell>
+                <TableCell>Turno</TableCell>
                 <TableCell>Activo</TableCell>
                 <TableCell>Acción</TableCell>
               </TableRow>
@@ -135,6 +87,7 @@ export const ConferenceTable = (props) => {
                     <TableCell>
                       {format(new Date(conference.expDateTime), 'dd/MM/yyyy hh:mm:ss')}
                     </TableCell>
+                    <TableCell>{conference.isMorning ? "Mañana" : "Tarde"}</TableCell>
                     <TableCell>{conference.isActive ? "Si" : "No"}</TableCell>
                     <TableCell>
                       <IconButton onClick={() => conferenceId(conference)}>
@@ -160,38 +113,6 @@ export const ConferenceTable = (props) => {
         page={page}
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25, 100]}
-      />
-
-      <Lightbox
-        index={currentImages.index}
-        styles={{ container: { backgroundColor: "rgba(0, 0, 0, .7)" } }}
-        open={openGallery}
-        close={() => setOpenGallery(false)}
-        slides={currentImages.slides}
-        plugins={[Zoom, Thumbnails]}
-        animation={0.02}
-        zoom={{
-          maxZoomPixelRatio: 5, // Aumenta o disminuye según quieras permitir más o menos zoom
-          zoomInMultiplier: 1.2, // Aumenta o disminuye para ajustar la velocidad del zoom con la rueda del mouse o gestos de pinza
-          doubleTapDelay: 300, // Aumenta este valor para requerir un doble toque más largo para activar el zoom
-          doubleClickDelay: 300, // Aumenta este valor para requerir un doble clic más largo para activar el zoom
-          doubleClickMaxStops: 2, // Puedes dejarlo en 2 para un doble clic con un aumento máximo de 2 veces el tamaño original
-          keyboardMoveDistance: 100, // Aumenta o disminuye según quieras cambiar la velocidad de desplazamiento con las teclas de flecha
-          wheelZoomDistanceFactor: 1000, // Disminuye este valor para tener un zoom más lento con la rueda del mouse
-          pinchZoomDistanceFactor: 1000, // Disminuye este valor para tener un zoom más lento con gestos de pinza en dispositivos táctiles
-          scrollToZoom: 1, // Activa el zoom al desplazarse con la rueda del mouse
-        }}
-        carousel={{ preload: 1 }}
-        thumbnails={{
-          position: "bottom",
-          width: 120,
-          height: 80,
-          border: 1,
-          borderRadius: 4,
-          padding: 4,
-          gap: 16,
-          showToggle: 0,
-        }}
       />
     </Card>
   );

@@ -18,6 +18,7 @@ import { styled } from "@mui/joy";
 import MultipleSelectChip from "../../components/multiple-select-chip";
 import URI from "src/contexts/url-context";
 import { DropzoneArea } from 'mui-file-dropzone';
+import { useRouter } from "next/router";
 
 export const EventsForm = ({ event, handleSubmit = () => {} }) => {
   const VisuallyHiddenInput = styled("input")`
@@ -39,6 +40,7 @@ export const EventsForm = ({ event, handleSubmit = () => {} }) => {
   const [selectedFileLogo, setSelectedFileLogo] = useState(null);
   const [selectedFileBrouchure, setSelectedFileBrouchere] = useState(null);
   const [selectedGalleryEvent, setSelectedGalleryEvent] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchTopics = async () => {
@@ -120,6 +122,7 @@ export const EventsForm = ({ event, handleSubmit = () => {} }) => {
                         name="start_date"
                         type="date"
                         defaultValue={event && event.start_date}
+                        InputLabelProps={{ shrink: true }}
                         required
                       />
                     </Grid>
@@ -130,6 +133,7 @@ export const EventsForm = ({ event, handleSubmit = () => {} }) => {
                         name="exp_date"
                         type="date"
                         defaultValue={event && event.exp_date}
+                        InputLabelProps={{ shrink: true }}
                         required
                       />
                     </Grid>
@@ -160,7 +164,6 @@ export const EventsForm = ({ event, handleSubmit = () => {} }) => {
                         name="price"
                         type="text"
                         defaultValue={event && event.price}
-                        required
                       />
                     </Grid>
                     <Grid xs={12} md={4}>
@@ -255,6 +258,11 @@ export const EventsForm = ({ event, handleSubmit = () => {} }) => {
               <CardActions sx={{ justifyContent: "flex-end" }}>
                 <Button type="submit" variant="contained">
                   Guardar
+                </Button>
+                <Button type="button" variant="secondary" onClick={() => {
+                  router.push("/events")
+                }}>
+                  Cancelar
                 </Button>
               </CardActions>
             </Card>

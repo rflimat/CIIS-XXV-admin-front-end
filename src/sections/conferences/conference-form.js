@@ -17,13 +17,16 @@ import {
 } from "@mui/material";
 import URI from "src/contexts/url-context";
 import { format } from "date-fns";
+import { useRouter } from "next/router";
 
 export const ConferenceForm = ({ conference, handleSubmit = () => {} }) => {
   const [isActive, setIsActive] = useState(1);
   const [event, setEvent] = useState(0);
   const [speaker, setSpeaker] = useState(0);
+  const [isMorning, setIsMorning] = useState(1);
   const [events, setEvents] = useState([]);
   const [speakers, setSpeakers] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     if (conference && conference.active) {
@@ -34,6 +37,9 @@ export const ConferenceForm = ({ conference, handleSubmit = () => {} }) => {
     }
     if (conference && conference.idSpeaker) {
       setSpeaker(Number(conference.idSpeaker));
+    }
+    if (conference && conference.isMorning) {
+      setIsMorning(Number(conference.isMorning));
     }
   }, [conference]);
 
@@ -98,7 +104,7 @@ export const ConferenceForm = ({ conference, handleSubmit = () => {} }) => {
                         required
                       />
                     </Grid>
-                    <Grid xs={12} md={6}>
+                    <Grid xs={12} md={4}>
                       <TextField
                         fullWidth
                         label="Fecha y Hora Inicio"
@@ -108,10 +114,11 @@ export const ConferenceForm = ({ conference, handleSubmit = () => {} }) => {
                           conference &&
                           format(new Date(conference.starDateTime), "yyyy-MM-dd hh:mm:ss")
                         }
+                        InputLabelProps={{ shrink: true }}
                         required
                       />
                     </Grid>
-                    <Grid xs={12} md={6}>
+                    <Grid xs={12} md={4}>
                       <TextField
                         fullWidth
                         label="Fecha y Hora Fin"
@@ -121,8 +128,29 @@ export const ConferenceForm = ({ conference, handleSubmit = () => {} }) => {
                           conference &&
                           format(new Date(conference.expDateTime), "yyyy-MM-dd hh:mm:ss")
                         }
+                        InputLabelProps={{ shrink: true }}
                         required
                       />
+                    </Grid>
+                    <Grid xs={12} md={4}>
+                      <FormControl sx={{ width: "100%" }}>
+                        <InputLabel id="demo-multiple-chip-label">Turno</InputLabel>
+                        <Select
+                          fullWidth
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          name="isMorning"
+                          value={isMorning}
+                          label="Turno"
+                          onChange={(event) => {
+                            setIsActive(Number(event.target.value));
+                          }}
+                          required
+                        >
+                          <MenuItem value={1}>Mañana</MenuItem>
+                          <MenuItem value={0}>Tarde</MenuItem>
+                        </Select>
+                      </FormControl>
                     </Grid>
                     <Grid xs={12} md={4}>
                       <FormControl sx={{ width: "100%" }}>
@@ -193,6 +221,11 @@ export const ConferenceForm = ({ conference, handleSubmit = () => {} }) => {
               <CardActions sx={{ justifyContent: "flex-end" }}>
                 <Button type="submit" variant="contained">
                   Guardar
+                </Button>
+                <Button type="button" variant="secondary" onClick={() => {
+                  router.push("/conferences")
+                }}>
+                  Cancelar
                 </Button>
               </CardActions>
             </Card>

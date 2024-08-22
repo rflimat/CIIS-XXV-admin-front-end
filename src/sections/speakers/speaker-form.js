@@ -11,6 +11,7 @@ import {
   Unstable_Grid2 as Grid
 } from "@mui/material";
 import { styled } from "@mui/joy";
+import { useRouter } from "next/router";
 
 export const SpeakerForm = ({ speaker, handleSubmit = () => {} }) => {
   const VisuallyHiddenInput = styled("input")`
@@ -26,6 +27,7 @@ export const SpeakerForm = ({ speaker, handleSubmit = () => {} }) => {
   `;
 
   const [selectedFile, setSelectedFile] = useState(null);
+  const router = useRouter();
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -105,7 +107,6 @@ export const SpeakerForm = ({ speaker, handleSubmit = () => {} }) => {
                         label="Rol"
                         name="role"
                         defaultValue={speaker && speaker.role}
-                        required
                       />
                     </Grid>
                     <Grid xs={12} md={6}>
@@ -114,7 +115,6 @@ export const SpeakerForm = ({ speaker, handleSubmit = () => {} }) => {
                         label="Lugar de trabajo"
                         name="workplace"
                         defaultValue={speaker && speaker.workplace}
-                        required
                       />
                     </Grid>
                     <Grid xs={12} md={6}>
@@ -195,6 +195,11 @@ export const SpeakerForm = ({ speaker, handleSubmit = () => {} }) => {
               <CardActions sx={{ justifyContent: "flex-end" }}>
                 <Button type="submit" variant="contained">
                   Guardar
+                </Button>
+                <Button type="button" variant="secondary" onClick={() => {
+                  router.push("/speakers")
+                }}>
+                  Cancelar
                 </Button>
               </CardActions>
             </Card>

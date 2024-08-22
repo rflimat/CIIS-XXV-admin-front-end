@@ -20,6 +20,7 @@ import {
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import URI from "src/contexts/url-context";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
+import DescriptionIcon from '@mui/icons-material/Description';
 import NextLink from "next/link";
 import { ConferenceTable } from "src/sections/conferences/conference-table";
 import { useDialog } from "src/hooks/use-dialog";
@@ -171,6 +172,19 @@ const Page = () => {
                     variant="contained"
                   >
                     Nuevo
+                  </Button>
+                  <Button
+                    component={NextLink}
+                    href={`/events/report/${showOption}`}
+                    startIcon={
+                      <SvgIcon fontSize="small">
+                        <DescriptionIcon />
+                      </SvgIcon>
+                    }
+                    sx={{ mt: 3, ml: 2 }}
+                    variant="contained"
+                  >
+                    Reporte
                   </Button>
                 </div>
 

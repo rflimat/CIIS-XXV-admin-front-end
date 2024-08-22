@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/joy";
 import URI from "src/contexts/url-context";
+import { useRouter } from "next/router";
 
 export const SponsorForm = ({ sponsor, handleSubmit = () => {} }) => {
   const VisuallyHiddenInput = styled("input")`
@@ -33,6 +34,7 @@ export const SponsorForm = ({ sponsor, handleSubmit = () => {} }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [event, setEvent] = useState(0);
   const [events, setEvents] = useState([]);
+  const router = useRouter();
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -135,6 +137,11 @@ export const SponsorForm = ({ sponsor, handleSubmit = () => {} }) => {
               <CardActions sx={{ justifyContent: "flex-end" }}>
                 <Button type="submit" variant="contained">
                   Guardar
+                </Button>
+                <Button type="button" variant="secondary" onClick={() => {
+                  router.push("/sponsors")
+                }}>
+                  Cancelar
                 </Button>
               </CardActions>
             </Card>

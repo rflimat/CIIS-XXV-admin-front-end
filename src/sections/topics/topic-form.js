@@ -14,10 +14,11 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { styled } from "@mui/joy";
+import { useRouter } from "next/router";
 
 export const TopicForm = ({ topic, handleSubmit = () => {} }) => {
   const [isActive, setIsActive] = useState(1);
+  const router = useRouter();
 
   const handleChangeIsActive = (event) => {
     setIsActive(Number(event.target.value));
@@ -86,6 +87,11 @@ export const TopicForm = ({ topic, handleSubmit = () => {} }) => {
               <CardActions sx={{ justifyContent: "flex-end" }}>
                 <Button type="submit" variant="contained">
                   Guardar
+                </Button>
+                <Button type="button" variant="secondary" onClick={() => {
+                  router.push("/topics")
+                }}>
+                  Cancelar
                 </Button>
               </CardActions>
             </Card>
