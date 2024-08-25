@@ -85,7 +85,7 @@ const Page = () => {
           const dniValue = jsonResult.dni;
           setResult(dniValue);
           // console.log(dniValue);
-          requestAttendance(24, dniValue);
+          requestAttendance(14, dniValue);
         } else {
           console.error("El campo 'dni' no está presente en el objeto JSON.");
         }
@@ -100,7 +100,7 @@ const Page = () => {
 
     if (event.target.checkValidity()) {
       let dni = event.target.querySelector("input").value;
-      requestAttendance(24, dni);
+      requestAttendance(14, dni);
     }
   };
 

@@ -23,7 +23,7 @@ export const ConferenceForm = ({ conference, handleSubmit = () => {} }) => {
   const [isActive, setIsActive] = useState(1);
   const [event, setEvent] = useState(0);
   const [speaker, setSpeaker] = useState(0);
-  const [isMorning, setIsMorning] = useState(1);
+  const [isMorning, setIsMorning] = useState(0);
   const [events, setEvents] = useState([]);
   const [speakers, setSpeakers] = useState([]);
   const router = useRouter();
@@ -111,8 +111,7 @@ export const ConferenceForm = ({ conference, handleSubmit = () => {} }) => {
                         name="startDateTime"
                         type="datetime-local"
                         defaultValue={
-                          conference &&
-                          format(new Date(conference.starDateTime), "yyyy-MM-dd hh:mm:ss")
+                          conference && format(new Date(conference.starDateTime), 'yyyy-MM-dd HH:mm:ss')
                         }
                         InputLabelProps={{ shrink: true }}
                         required
@@ -125,8 +124,7 @@ export const ConferenceForm = ({ conference, handleSubmit = () => {} }) => {
                         name="expDateTime"
                         type="datetime-local"
                         defaultValue={
-                          conference &&
-                          format(new Date(conference.expDateTime), "yyyy-MM-dd hh:mm:ss")
+                          conference && format(new Date(conference.expDateTime), 'yyyy-MM-dd HH:mm:ss')
                         }
                         InputLabelProps={{ shrink: true }}
                         required
@@ -143,7 +141,7 @@ export const ConferenceForm = ({ conference, handleSubmit = () => {} }) => {
                           value={isMorning}
                           label="Turno"
                           onChange={(event) => {
-                            setIsActive(Number(event.target.value));
+                            setIsMorning(Number(event.target.value));
                           }}
                           required
                         >

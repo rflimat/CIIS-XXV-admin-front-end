@@ -82,10 +82,10 @@ export const ConferenceTable = (props) => {
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      {format(new Date(conference.starDateTime), 'dd/MM/yyyy hh:mm:ss')}
+                      {format(new Date(conference.starDateTime), 'dd/MM/yyyy HH:mm:ss')}
                     </TableCell>
                     <TableCell>
-                      {format(new Date(conference.expDateTime), 'dd/MM/yyyy hh:mm:ss')}
+                      {format(new Date(conference.expDateTime), 'dd/MM/yyyy HH:mm:ss')}
                     </TableCell>
                     <TableCell>{conference.isMorning ? "Mañana" : "Tarde"}</TableCell>
                     <TableCell>{conference.isActive ? "Si" : "No"}</TableCell>

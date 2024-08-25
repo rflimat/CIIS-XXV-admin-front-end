@@ -24,7 +24,7 @@ const Page = () => {
 
   const fetchCustomers = async () => {
     try {
-      let data = await fetch(URI.events.one(24).reservation.ciis + `?limit=${1000}`, {
+      let data = await fetch(URI.events.one(14).reservation.ciis + `?limit=${1000}`, {
         method: "GET",
         credentials: "include",
       });
