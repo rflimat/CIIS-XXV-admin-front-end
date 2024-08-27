@@ -5,7 +5,7 @@ import ChevronUpDownIcon from "@heroicons/react/24/solid/ChevronUpDownIcon";
 import { Box, Divider, Drawer, Stack, SvgIcon, Typography, useMediaQuery } from "@mui/material";
 import { Logo } from "src/components/logo";
 import { Scrollbar } from "src/components/scrollbar";
-import { vistaOrganizador, vistaAdministrador } from "./config";
+import { vistaOrganizador, vistaAdministrador, vistaContador, vistaGestorContenido } from "./config";
 import { SideNavItem } from "./side-nav-item";
 import { useAuth } from "src/hooks/use-auth";
 
@@ -16,9 +16,10 @@ export const SideNav = (props) => {
 
   const { user } = useAuth();
   let items = [];
-  // console.log(user);
   if (user.role == 1) items = vistaAdministrador;
-  else if (user.role == 3) items = vistaOrganizador;
+  else if (user.role == 2) items = vistaOrganizador;
+  else if (user.role == 4) items = vistaContador;
+  else if (user.role == 5) items = vistaGestorContenido;
 
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));

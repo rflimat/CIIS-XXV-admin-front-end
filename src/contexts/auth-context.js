@@ -131,10 +131,10 @@ export const AuthProvider = (props) => {
     if (response.ok) {
       let userData = await response.json();
 
-      if (userData.role == 2) throw new Error("Usuario no autorizado");
+      if (userData.role == 3) throw new Error("Usuario no autorizado");
 
       user = userData;
-      user.avatar = "/assets/logos/logo-ciis-xxiv.png";
+      user.avatar = "/assets/logos/logo-ciis-xxv.jpg";
 
       window.sessionStorage.setItem("authenticated", "true");
       window.sessionStorage.setItem("ciisTacnaAdmin", JSON.stringify(user));

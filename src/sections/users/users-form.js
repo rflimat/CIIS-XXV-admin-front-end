@@ -77,6 +77,8 @@ export const UsersForm = ({ user, handleSubmit = () => {} }) => {
                           <MenuItem value={1}>Administrador</MenuItem>
                           <MenuItem value={2}>Organizador</MenuItem>
                           <MenuItem value={3}>Asistente</MenuItem>
+                          <MenuItem value={4}>Contador</MenuItem>
+                          <MenuItem value={5}>Gestor de contenido</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>

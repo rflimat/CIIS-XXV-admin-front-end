@@ -98,7 +98,7 @@ export const Layout = (props) => {
             <img
               width={500}
               alt="CIIS"
-              src="/assets/logos/logo-ciis-xxiv.png"
+              src="/assets/logos/logo-ciis-xxv.png"
             />
           </Box>
         </Grid>

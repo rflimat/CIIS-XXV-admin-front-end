@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: true,
-  basePath: '/admin',
+  output: "export",
   images: {
     unoptimized: true,
   },

@@ -137,12 +137,54 @@ export const vistaOrganizador = [
       </SvgIcon>
     ),
   },
-  {
+  /* {
     title: "Talleres",
     path: "/taller",
     icon: (
       <SvgIcon fontSize="small">
         <HowToRegIcon />
+      </SvgIcon>
+    ),
+  }, */
+];
+
+export const vistaContador = [
+  {
+    title: "Clientes",
+    path: "/customer",
+    icon: (
+      <SvgIcon fontSize="small">
+        <AppRegistration />
+      </SvgIcon>
+    ),
+  },
+];
+
+export const vistaGestorContenido = [
+  {
+    title: "Ponentes",
+    path: "/speakers",
+    icon: (
+      <SvgIcon fontSize="small">
+        <GroupIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Conferencias",
+    path: "/conferences",
+    icon: (
+      <SvgIcon fontSize="small">
+        <SlideshowIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Sponsors",
+    path: "/sponsors",
+    icon: (
+      <SvgIcon fontSize="small">
+        <CogIcon />
       </SvgIcon>
     ),
   },

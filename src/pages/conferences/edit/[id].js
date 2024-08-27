@@ -36,7 +36,7 @@ const Page = () => {
         .then(async (res) => {
           if (!res.ok) {
             let serverResponse = await res.json();
-            throw new Error(serverResponse);
+            throw serverResponse;
           }
             successDialog.handleToggle();
             router.push("/conferences");

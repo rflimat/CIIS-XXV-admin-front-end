@@ -218,7 +218,7 @@ export const TablaInscritos = ({ primTaller }) => {
     },
   ];
 
-  const hideAccionesColumn = user.role !== 1;
+  const hideAccionesColumn = [1, 4].includes(user.role);
 
   const filteredColumns = columns.filter((column) => {
     if (hideAccionesColumn && column.field === "Acciones" ) {

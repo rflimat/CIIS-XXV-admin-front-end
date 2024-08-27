@@ -4,6 +4,27 @@ import { useAuth } from "src/hooks/use-auth";
 export const AccountProfile = () => {
   const { user } = useAuth();
 
+  const typeUser = [
+    {
+      role: 1,
+      name: "Administrador",
+    },
+    {
+      role: 2,
+      name: "Organizador"
+    },
+    {
+      role: 4,
+      name: "Contador"
+    },
+    {
+      role: 5,
+      name: "Gestor de contenido"
+    }
+  ]
+
+  console.log(typeUser.find((el) => el.role == user.role))
+
   return (
     <Card>
       <CardContent>
@@ -15,7 +36,7 @@ export const AccountProfile = () => {
           }}
         >
           <Avatar
-            src={"/assets/logos/logo-ciis-xxiv.png"}
+            src={"/assets/logos/logo-ciis-xxv.jpg"}
             sx={{
               height: 80,
               mb: 2,
@@ -26,7 +47,7 @@ export const AccountProfile = () => {
             {user?.name} {user?.firstLastname} {user?.secondLastname}
           </Typography>
           <Typography color="text.secondary" gutterBottom variant="body1" mb={2} mt={-1}>
-            {user.role == 3 ? "Organizador" : "Administrador"} CIIS
+            {typeUser.find((el) => el.role == user.role).name} CIIS
           </Typography>
           <Typography color="text.secondary" variant="body2">
             Tacna, Perú

@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { styled } from "@mui/material/styles";
 import { withAuthGuard } from "src/hocs/with-auth-guard";
 import { SideNav } from "./side-nav";
 import { TopNav } from "./top-nav";
+import { vistaOrganizador, vistaAdministrador, vistaContador, vistaGestorContenido } from "./config";
+import { useAuth } from "src/hooks/use-auth";
 
 const SIDE_NAV_WIDTH = 280;
 
@@ -27,7 +29,9 @@ export const Layout = withAuthGuard((props) => {
   const { children } = props;
   const pathname = usePathname();
   const [openNav, setOpenNav] = useState(false);
-
+  const { user } = useAuth();
+  const router = useRouter();
+  
   const handlePathnameChange = useCallback(() => {
     if (openNav) {
       setOpenNav(false);
@@ -41,6 +45,17 @@ export const Layout = withAuthGuard((props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [pathname]
   );
+
+  let items = [];
+  if (user.role == 1) items = vistaAdministrador;
+  else if (user.role == 2) items = vistaOrganizador;
+  else if (user.role == 4) items = vistaContador;
+  else if (user.role == 5) items = vistaGestorContenido;
+  
+  if (pathname !== "/" && !items.some((el) => pathname.startsWith(el.path))) {
+    router.push("/");
+    return;
+  }
 
   return (
     <>

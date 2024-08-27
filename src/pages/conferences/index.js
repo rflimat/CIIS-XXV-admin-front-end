@@ -63,7 +63,7 @@ const Page = () => {
     }).then(async (res) => {
       if (!res.ok) {
         let serverResponse = await res.json();
-        throw new Error(serverResponse);
+        throw serverResponse;
       }
       successDialog.handleToggle();
       setToDelete(undefined);
@@ -87,7 +87,7 @@ const Page = () => {
       if (!response.ok) {
         setConferences(null);
         let { error } = await response.json();
-        throw new Error(error);
+        throw error;
       }
       let data = await response.json();
       setConferences(data);

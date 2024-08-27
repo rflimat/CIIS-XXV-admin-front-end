@@ -111,6 +111,38 @@ export const SponsorForm = ({ sponsor, handleSubmit = () => {} }) => {
                         </Select>
                       </FormControl>
                     </Grid>
+                    <Grid xs={12} md={6}>
+                      <TextField
+                        fullWidth
+                        label="Web Sponsor"
+                        name="webSponsor"
+                        defaultValue={sponsor && sponsor.webSponsor}
+                      />
+                    </Grid>
+                    <Grid xs={12} md={6}>
+                      <TextField
+                        fullWidth
+                        label="Facebook Sponsor"
+                        name="facebookSponsor"
+                        defaultValue={sponsor && sponsor.facebookSponsor}
+                      />
+                    </Grid>
+                    <Grid xs={12} md={6}>
+                      <TextField
+                        fullWidth
+                        label="Youtube Sponsor"
+                        name="youtubeSponsor"
+                        defaultValue={sponsor && sponsor.youtubeSponsor}
+                      />
+                    </Grid>
+                    <Grid xs={12} md={6}>
+                      <TextField
+                        fullWidth
+                        label="Linkedin Sponsor"
+                        name="linkedinSponsor"
+                        defaultValue={sponsor && sponsor.linkedinSponsor}
+                      />
+                    </Grid>
                     <Grid xs={12} md={12}>
                       <Button
                         required
