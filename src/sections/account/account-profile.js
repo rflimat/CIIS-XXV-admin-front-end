@@ -23,8 +23,6 @@ export const AccountProfile = () => {
     }
   ]
 
-  console.log(typeUser.find((el) => el.role == user.role))
-
   return (
     <Card>
       <CardContent>

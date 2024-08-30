@@ -17,7 +17,7 @@ import { Scrollbar } from "src/components/scrollbar";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Lightbox from "yet-another-react-lightbox";
 
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
@@ -68,7 +68,7 @@ export const CustomersTable = (props) => {
     buttonCheck.classList.add("Mui-disabled");
     buttonAlert.classList.add("Mui-disabled");
 
-    fetch(URI.reservation.one(id).src, {
+    fetch(URI.reservation.one(id).src + "?type_event=postmaster", {
       method: "PATCH",
       body: JSON.stringify({ status }),
       headers: {
@@ -111,6 +111,10 @@ export const CustomersTable = (props) => {
     setUser2edit(user);
   };
 
+  useEffect(() => {
+    console.log(currentImages)
+  }, [currentImages])
+
   return (
     <Card>
       <Scrollbar>
@@ -133,7 +137,7 @@ export const CustomersTable = (props) => {
                 let slides = [];
                 slides.push({ src: domain + "/api/v2" + customer.dir_voucher + "?type_event=postmaster" });
                 if (customer.dir_fileuniversity)
-                  slides.push({ src: domain + "/api/v2" + customer.dir_fileuniversity + "?type=event=postmaster" });
+                  slides.push({ src: domain + "/api/v2" + customer.dir_fileuniversity + "?type_event=postmaster" });
 
                 customer.slides = slides;
 
@@ -259,7 +263,7 @@ export const CustomersTable = (props) => {
           pinchZoomDistanceFactor: 1000, // Disminuye este valor para tener un zoom más lento con gestos de pinza en dispositivos táctiles
           scrollToZoom: 1, // Activa el zoom al desplazarse con la rueda del mouse
         }}
-        carousel={{ preload: 1 }}
+        carousel={{ preload: 0 }}
         thumbnails={{
           position: "bottom",
           width: 120,

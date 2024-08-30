@@ -13,6 +13,7 @@ import GroupIcon from "@mui/icons-material/Group";
 import TopicIcon from '@mui/icons-material/Topic';
 import EventIcon from '@mui/icons-material/Event';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import { SvgIcon } from "@mui/material";
 import { AppRegistration } from "@mui/icons-material";
 
@@ -95,6 +96,15 @@ export const vistaAdministrador = [
     icon: (
       <SvgIcon fontSize="small">
         <HowToRegIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Entrega de Kit",
+    path: "/kitdelivered",
+    icon: (
+      <SvgIcon fontSize="small">
+        <CardGiftcardIcon />
       </SvgIcon>
     ),
   },

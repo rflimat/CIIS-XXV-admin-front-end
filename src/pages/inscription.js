@@ -22,6 +22,57 @@ import URI from "src/contexts/url-context";
 import Swal from "sweetalert2";
 import { PacmanLoader } from "react-spinners";
 
+const typeActEvent = "postmaster";
+
+const info = {
+  postmaster: {
+    planes: [
+      {
+        id: (new Date("2024-09-12T05:00:00Z") > new Date()) ? 1 : 4,
+        name: "Estudiante de la ESIS",
+      },
+      {
+        id: (new Date("2024-09-12T05:00:00Z") > new Date()) ? 2 : 5,
+        name: "Estudiante de la UNJBG",
+      },
+      {
+        id: (new Date("2024-09-12T05:00:00Z") > new Date()) ? 3 : 6,
+        name: "Público General",
+      },
+    ],
+  },
+  ciis: {
+    planes: [
+      {
+        id: 7,
+        name: "Público General",
+      },
+      {
+        id: 8,
+        name: "Estudiante visitante",
+      },
+      {
+        id: 9,
+        name: "Delegaciones"
+      },
+      {
+        id: 10,
+        name: "Estudiantes UNJBG"
+      }
+    ],
+    delegaciones: [
+      {
+        abrev: "CIIS-XXIV-UNASAM",
+        name: "Universidad Nacional Santiago Antúnez de Mayolo Huaraz",
+      },
+      {
+        abrev: "CIIS-XXIV-UNP",
+        name: "Universidad Nacional de Piura",
+      },
+    ],
+  },
+};
+
 const Page = () => {
   const [type, setType] = useState(14);
   const [scan, setScan] = useState(false);
@@ -38,7 +89,7 @@ const Page = () => {
       setScanning(true);
       const user = JSON.parse(result.text);
 
-      fetch(URI.reservation.qr, {
+      fetch(URI.reservation.qr + "?type_event=postmaster", {
         method: "POST",
         body: JSON.stringify({ dni: user.dni, type }),
         credentials: "include",
@@ -102,15 +153,10 @@ const Page = () => {
                       <Typography variant="h6" mb={2}>
                         Modalidad
                       </Typography>
-                      <RadioGroup onChange={handleChangeModalidad} defaultValue="14">
-                        <FormControlLabel value="14" control={<Radio />} label="Estudiante UNJBG" />
-                        <FormControlLabel value="13" control={<Radio />} label="Delegación" />
-                        <FormControlLabel
-                          value="12"
-                          control={<Radio />}
-                          label="Externo o egresado"
-                        />
-                        <FormControlLabel value="11" control={<Radio />} label="Público general" />
+                      <RadioGroup onChange={handleChangeModalidad}>
+                        {info[`${typeActEvent}`].planes.map((plan, index) => (
+                          <FormControlLabel key={index} value={plan.id} control={<Radio />} label={plan.name} />
+                        ))}
                       </RadioGroup>
                     </CardContent>
                   </Card>
@@ -159,22 +205,26 @@ const Page = () => {
                     </CardContent>
                   </Card>
                 </Grid>
-                <Grid item xs={12} sm={5} md={4}>
-                  <Card>
-                    <CardContent>
-                      <Typography variant="h6" mb={2}>
-                        Delegaciones
-                      </Typography>
-                      <Typography fontWeight={"bold"}>CIIS-XXIV-UNASAM</Typography>
-                      <Typography>
-                        Universidad Nacional Santiago Antúnez de Mayolo Huaraz
-                      </Typography>
-                      <br />
-                      <Typography fontWeight={"bold"}>CIIS-XXIV-UNP</Typography>
-                      <Typography>Universidad Nacional de Piura</Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
+                {typeActEvent === "ciis" && (
+                  <Grid item xs={12} sm={5} md={4}>
+                    <Card>
+                      <CardContent>
+                        <Typography variant="h6" mb={2}>
+                          Delegaciones
+                        </Typography>
+                        {info.ciis.delegaciones.map((delegacion, index) => (
+                          <div key={index}>
+                            <Typography fontWeight={"bold"}>{delegacion.abrev}</Typography>
+                            <Typography>
+                              {delegacion.name}
+                            </Typography>
+                            <br />
+                          </div>
+                        ))}
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                )}
               </Grid>
             </div>
           </Stack>
