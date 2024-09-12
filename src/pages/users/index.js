@@ -55,7 +55,8 @@ const Page = () => {
       });
 
       data = await data.json();
-      setUsers(applyPagination(data, page, rowsPerPage));
+      setUsers(data);
+      setSelected(applyPagination(data, page, rowsPerPage))
       setTotal(data.length);
 
       setLoading(false);

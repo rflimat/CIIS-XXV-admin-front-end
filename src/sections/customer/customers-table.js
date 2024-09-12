@@ -35,6 +35,7 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { FileUpload } from "@mui/icons-material";
 import CustomerFormEdit from "./customers-edit";
 import Swal from "sweetalert2";
+import { format } from "date-fns";
 
 export const CustomersTable = (props) => {
   const {
@@ -126,6 +127,7 @@ export const CustomersTable = (props) => {
                 <TableCell>Email</TableCell>
                 <TableCell>Celular</TableCell>
                 <TableCell>Tipo de inscripción</TableCell>
+                <TableCell>Fecha</TableCell>
                 <TableCell>Estado</TableCell>
                 <TableCell>Voucher</TableCell>
                 <TableCell>Matrícula</TableCell>
@@ -153,6 +155,9 @@ export const CustomersTable = (props) => {
                     <TableCell>{customer.email}</TableCell>
                     <TableCell>{customer.phone}</TableCell>
                     <TableCell>{customer.typeattendee.name_attendee}</TableCell>
+                    <TableCell>
+                      {format(new Date(customer.created_at), 'dd/MM/yyyy HH:mm:ss')}
+                    </TableCell>
                     <TableCell>
                       <Typography
                         fontWeight={"bold"}

@@ -5,12 +5,13 @@ import PropTypes from "prop-types";
 import { Download, Summarize, SummarizeOutlined } from "@mui/icons-material";
 import { IconButton } from "yet-another-react-lightbox";
 
-export const CustomersSearch = ({ handleSetCounter, status }) => (
+export const CustomersSearch = ({ search, setSearch, handleSetCounter, status }) => (
   <Card sx={{ p: 2 }}>
     <OutlinedInput
-      defaultValue=""
       fullWidth
       placeholder="Buscar cliente"
+      value={search}
+      onChange={setSearch}
       startAdornment={
         <InputAdornment position="start">
           <SvgIcon color="action" fontSize="small">
@@ -32,7 +33,7 @@ export const CustomersSearch = ({ handleSetCounter, status }) => (
         marginLeft: 2,
       }}
       href={
-        "https://ciistacna.com/api/v1/reports/event/12/registrations/" +
+        "https://ciistacna.com/api/v2/reports/event/14/registrations/" +
         (status ? "?status=" + status : "")
       }
       target="_blank"

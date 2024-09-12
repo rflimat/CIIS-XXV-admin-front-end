@@ -31,7 +31,47 @@ const Page = () => {
   const [success, setSuccess] = useState(false);
   const [failure, setFailure] = useState(false);
   const [scanning, setScanning] = useState(false);
-  const [selectedEntry, setSelectedEntry] = useState("1");
+
+  const requestKitDelivered = (event, userID) => {
+    setScanning(true);
+
+    fetch(URI.kitdelivered(event, userID), {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(async (res) => {
+        let serverMsg = await res.json();
+        if (res.ok) {
+          Swal.fire({
+            title: "Listo",
+            text: serverMsg.message,
+            icon: "success",
+          });
+        } else {
+          if (serverMsg.code == 409) {
+            Swal.fire({
+              title: "Duplicado",
+              text: "Ya se entregó el kit al usuario",
+              icon: "error",
+            });
+          } else {
+            throw new Error();
+          }
+        }
+      })
+      .catch(() =>
+        Swal.fire({
+          title: "Error",
+          text: "Ocurrio un error inesperado",
+          icon: "error",
+        })
+      )
+      .finally(() => {
+        setResult(null);
+        setScanning(false);
+      });
+  };
 
   const handleScan = (result) => {
     if (result && result.text) {
@@ -42,7 +82,7 @@ const Page = () => {
           const dniValue = jsonResult.dni;
           setResult(dniValue);
           // console.log(dniValue);
-          //requestKitDelivered(14, dniValue);
+          requestKitDelivered(14, dniValue);
         } else {
           console.error("El campo 'dni' no está presente en el objeto JSON.");
         }
@@ -54,6 +94,11 @@ const Page = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (event.target.checkValidity()) {
+      let dni = event.target.querySelector("input").value;
+      requestKitDelivered(14, dni);
+    }
   }
 
   return (

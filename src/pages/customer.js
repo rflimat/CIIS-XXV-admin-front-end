@@ -12,15 +12,38 @@ import { FormControl, InputLabel, Select, MenuItem, FormHelperText } from "@mui/
 const now = new Date();
 
 import URI from "src/contexts/url-context";
+import { searchInArray } from "src/utils/search-in-array";
 
 const Page = () => {
+  const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [showOption, setShowOption] = useState(0);
   const [loading, setLoading] = useState(true); // Agregamos el estado loading
+  const [selected, setSelected] = useState([]);
   const [customers, setCustomers] = useState([]); // Estado para almacenar los datos de los clientes
   const [total, setTotal] = useState(0);
   const [counter, setCounter] = useState(0);
+
+  const filterCustomers = (customers) => {
+    // Aquí aplicamos la lógica para filtrar los clientes según el showOption y paginarlos
+    let data2render = [];
+    let noConfirmados = customers.filter((a) => a.enrollmentstatus != 2);
+    noConfirmados.sort((a, b) => a.enrollmentstatus - b.enrollmentstatus);
+
+    if (showOption == 0) {
+      let confirmados = customers.filter((a) => a.enrollmentstatus == 2);
+      data2render = [...noConfirmados, ...confirmados];
+    } else if (showOption == 1)
+      data2render = noConfirmados.filter((a) => a.enrollmentstatus == 1);
+    else if (showOption == 2) data2render = customers.filter((a) => a.enrollmentstatus == 2);
+    else if (showOption == 3) data2render = noConfirmados.filter((a) => a.enrollmentstatus == 3);
+
+    // Actualizamos el estado customers con los datos obtenidos y marcamos loading como falso
+    let selected = searchInArray(data2render, search);
+    setSelected(applyPagination(selected, page, rowsPerPage));
+    setTotal(selected.length);
+  }
 
   const fetchCustomers = async () => {
     try {
@@ -32,23 +55,9 @@ const Page = () => {
       data = await data.json();
       data = data.registrations;
 
-      // Aquí aplicamos la lógica para filtrar los clientes según el showOption y paginarlos
-      let data2render = [];
-      let noConfirmados = data.filter((a) => a.enrollmentstatus != 2);
-      noConfirmados.sort((a, b) => a.enrollmentstatus - b.enrollmentstatus);
-
-      if (showOption == 0) {
-        let confirmados = data.filter((a) => a.enrollmentstatus == 2);
-        data2render = [...noConfirmados, ...confirmados];
-      } else if (showOption == 1)
-        data2render = noConfirmados.filter((a) => a.enrollmentstatus == 1);
-      else if (showOption == 2) data2render = data.filter((a) => a.enrollmentstatus == 2);
-      else if (showOption == 3) data2render = noConfirmados.filter((a) => a.enrollmentstatus == 3);
-
-      // Actualizamos el estado customers con los datos obtenidos y marcamos loading como falso
-      setCustomers(applyPagination(data2render, page, rowsPerPage));
+      setCustomers(data);
+      filterCustomers(data);
       setLoading(false);
-      setTotal(data2render.length);
     } catch (error) {
       // Si hay un error, mostramos un mensaje o manejo de errores según tus necesidades
       setLoading(false);
@@ -56,9 +65,20 @@ const Page = () => {
   };
 
   useEffect(() => {
-    setLoading(true); // Indicamos que se están cargando los datos
     fetchCustomers();
-  }, [rowsPerPage, showOption, page, counter]);
+  }, [counter]);
+
+  useEffect(() => {
+    setLoading(true); // Indicamos que se están cargando los datos
+    filterCustomers(customers);
+    setLoading(false);
+    
+  }, [customers, rowsPerPage, showOption, page, search]);
+
+  const handleFilterSearch = useCallback((event) => {
+    setPage(0);
+    setSearch(event.target.value);
+  }, []);
 
   const handlePageChange = useCallback((event, value) => {
     setPage(value);
@@ -115,7 +135,7 @@ const Page = () => {
                 </FormControl>
               </Stack>
             </Stack>
-            <CustomersSearch handleSetCounter={handleSetCounter} status={showOption} />
+            <CustomersSearch search={search} setSearch={handleFilterSearch} handleSetCounter={handleSetCounter} status={showOption} />
 
             {loading && <GridLoader color="#36d7b7" size={50} />}
             {!loading && (
@@ -123,7 +143,7 @@ const Page = () => {
                 handleSetCounter={handleSetCounter}
                 counter={counter}
                 count={total}
-                items={customers}
+                items={selected}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 page={page}

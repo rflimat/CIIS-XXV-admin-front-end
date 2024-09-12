@@ -139,6 +139,15 @@ export const vistaOrganizador = [
     ),
   },
   {
+    title: "Entrega de Kit",
+    path: "/kitdelivered",
+    icon: (
+      <SvgIcon fontSize="small">
+        <CardGiftcardIcon />
+      </SvgIcon>
+    ),
+  },
+  {
     title: "Perfil",
     path: "/account",
     icon: (
@@ -168,6 +177,15 @@ export const vistaContador = [
       </SvgIcon>
     ),
   },
+  {
+    title: "Inscripción",
+    path: "/inscription",
+    icon: (
+      <SvgIcon fontSize="small">
+        <PersonAddIcon />
+      </SvgIcon>
+    ),
+  }
 ];
 
 export const vistaGestorContenido = [
