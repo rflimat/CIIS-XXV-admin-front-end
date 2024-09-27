@@ -126,6 +126,14 @@ export const SpeakerForm = ({ speaker, handleSubmit = () => {} }) => {
                         required
                       />
                     </Grid>
+                    <Grid xs={12} md={3}>
+                      <TextField
+                        fullWidth
+                        label="Orden"
+                        name="order"
+                        defaultValue={speaker && speaker.order}
+                      />
+                    </Grid>
                     <Grid xs={12} md={12}>
                       <TextField
                         fullWidth

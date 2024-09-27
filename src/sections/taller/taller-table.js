@@ -105,6 +105,8 @@ export const TallerTable = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell>Nombre</TableCell>
+                <TableCell>N° de tickets</TableCell>
+                <TableCell>N° de tickets disponibles</TableCell>
                 <TableCell>N° de inscritos</TableCell>
                 <TableCell>Precio</TableCell>
                 <TableCell>Ponente</TableCell>
@@ -128,7 +130,9 @@ export const TallerTable = (props) => {
                       <Stack alignItems="center" direction="row" spacing={2}>
                         <Typography variant="subtitle2">{customer.name}</Typography>
                       </Stack>
-                    </TableCell>
+                    </TableCell>                    
+                    <TableCell>{customer.tickets}</TableCell>
+                    <TableCell>{customer.avaible}</TableCell>
                     <TableCell>{customer.tickets - customer.avaible}</TableCell>
                     <TableCell>{customer.price}</TableCell>
                     <TableCell>

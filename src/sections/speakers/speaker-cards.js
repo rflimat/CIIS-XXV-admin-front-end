@@ -31,13 +31,13 @@ export const SpeakerCards = (props) => {
             <Card sx={{ maxWidth: 345 }}>
               <CardMedia
                 component="img"
-                alt={`${speaker.name} ${speaker.lastname}`}
+                alt={`${speaker.degree} ${speaker.name} ${speaker.lastname}`}
                 height="300"
                 image={`${domain}/${speaker.avatar}`}
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                  {speaker.name} {speaker.lastname}
+                  {speaker.degree} {speaker.name} {speaker.lastname}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {speaker.description}
@@ -59,7 +59,7 @@ export const SpeakerCards = (props) => {
         style={{ display: "flex", justifyContent: "center", marginTop: 24 }}
         shape="rounded"
         size="large"
-        count={Math.round(total / rowsPerPage) + 1}
+        count={Math.trunc(total / rowsPerPage) + 1}
         page={page}
         onChange={handlePageChange}
       />

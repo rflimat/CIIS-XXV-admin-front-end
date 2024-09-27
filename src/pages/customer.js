@@ -13,6 +13,7 @@ const now = new Date();
 
 import URI from "src/contexts/url-context";
 import { searchInArray } from "src/utils/search-in-array";
+import { idEvent, idTypeEvent } from "src/utils/constants";
 
 const Page = () => {
   const [search, setSearch] = useState("");
@@ -47,7 +48,7 @@ const Page = () => {
 
   const fetchCustomers = async () => {
     try {
-      let data = await fetch(URI.events.one(14).reservation.ciis + `?limit=${1000}`, {
+      let data = await fetch(URI.events.one(idEvent).reservation.ciis + `?event=${idTypeEvent}&limit=${1000}`, {
         method: "GET",
         credentials: "include",
       });

@@ -5,7 +5,10 @@ export const domain = "https://ciistacna.com";
 const URI = {
   sessions: domain + "/api/v2/session",
   registrations: domain + "/api/v1/registrations",
-  taller: domain + "/api/v2/taller",
+  taller: {
+    src: domain + "/api/v2/taller",
+    one: (id) => `${domain}/api/v2/taller/${id}`,
+  },
   reservation: {
     src: domain + "/api/v2/reservation",
     qr: domain + "/api/v2/reservation/qr",
@@ -50,6 +53,9 @@ const URI = {
       }
     }),
   },
+  reports: {
+    registrations: (id) => `${domain}/api/v2/reports/event/${id}/registrations/`,
+  }
 };
 
 export default URI;

@@ -24,6 +24,7 @@ import URI from "src/contexts/url-context";
 import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
 import Swal from "sweetalert2";
 import { PacmanLoader } from "react-spinners";
+import { idEvent } from "src/utils/constants";
 
 const Page = () => {
   const [result, setResult] = useState(null);
@@ -81,8 +82,7 @@ const Page = () => {
         if (jsonResult && jsonResult.dni) {
           const dniValue = jsonResult.dni;
           setResult(dniValue);
-          // console.log(dniValue);
-          requestKitDelivered(14, dniValue);
+          requestKitDelivered(idEvent, dniValue);
         } else {
           console.error("El campo 'dni' no está presente en el objeto JSON.");
         }
@@ -97,7 +97,7 @@ const Page = () => {
 
     if (event.target.checkValidity()) {
       let dni = event.target.querySelector("input").value;
-      requestKitDelivered(14, dni);
+      requestKitDelivered(idEvent, dni);
     }
   }
 

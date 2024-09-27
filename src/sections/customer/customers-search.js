@@ -4,6 +4,8 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import PropTypes from "prop-types";
 import { Download, Summarize, SummarizeOutlined } from "@mui/icons-material";
 import { IconButton } from "yet-another-react-lightbox";
+import URI from "src/contexts/url-context";
+import { idEvent } from "src/utils/constants";
 
 export const CustomersSearch = ({ search, setSearch, handleSetCounter, status }) => (
   <Card sx={{ p: 2 }}>
@@ -33,7 +35,7 @@ export const CustomersSearch = ({ search, setSearch, handleSetCounter, status })
         marginLeft: 2,
       }}
       href={
-        "https://ciistacna.com/api/v2/reports/event/14/registrations/" +
+        URI.reports.registrations(idEvent) +
         (status ? "?status=" + status : "")
       }
       target="_blank"

@@ -36,6 +36,7 @@ import { FileUpload } from "@mui/icons-material";
 import CustomerFormEdit from "./customers-edit";
 import Swal from "sweetalert2";
 import { format } from "date-fns";
+import { typeEvent } from "src/utils/constants";
 
 export const CustomersTable = (props) => {
   const {
@@ -69,7 +70,7 @@ export const CustomersTable = (props) => {
     buttonCheck.classList.add("Mui-disabled");
     buttonAlert.classList.add("Mui-disabled");
 
-    fetch(URI.reservation.one(id).src + "?type_event=postmaster", {
+    fetch(`${URI.reservation.one(id).src}?type_event=${typeEvent}`, {
       method: "PATCH",
       body: JSON.stringify({ status }),
       headers: {
@@ -137,9 +138,9 @@ export const CustomersTable = (props) => {
             <TableBody>
               {items.map((customer, idx) => {
                 let slides = [];
-                slides.push({ src: domain + "/api/v2" + customer.dir_voucher + "?type_event=postmaster" });
+                slides.push({ src: `${domain}/api/v2${customer.dir_voucher}?type_event=${typeEvent}` });
                 if (customer.dir_fileuniversity)
-                  slides.push({ src: domain + "/api/v2" + customer.dir_fileuniversity + "?type_event=postmaster" });
+                  slides.push({ src: `${domain}/api/v2${customer.dir_fileuniversity}?type_event=${typeEvent}` });
 
                 customer.slides = slides;
 

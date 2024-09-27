@@ -13,6 +13,8 @@ import {
   Radio,
   FormControlLabel,
   RadioGroup,
+  Button,
+  TextField,
 } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import QrReader from "react-qr-scanner";
@@ -21,22 +23,22 @@ import { useState } from "react";
 import URI from "src/contexts/url-context";
 import Swal from "sweetalert2";
 import { PacmanLoader } from "react-spinners";
-
-const typeActEvent = "postmaster";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
+import { idEvent, typeEvent } from "src/utils/constants";
 
 const info = {
   postmaster: {
     planes: [
       {
-        id: (new Date("2024-09-12T05:00:00Z") > new Date()) ? 1 : 4,
+        id: new Date("2024-09-13T05:00:00Z") > new Date() ? 1 : 4,
         name: "Estudiante de la ESIS",
       },
       {
-        id: (new Date("2024-09-12T05:00:00Z") > new Date()) ? 2 : 5,
+        id: new Date("2024-09-13T05:00:00Z") > new Date() ? 2 : 5,
         name: "Estudiante de la UNJBG",
       },
       {
-        id: (new Date("2024-09-12T05:00:00Z") > new Date()) ? 3 : 6,
+        id: new Date("2024-09-13T05:00:00Z") > new Date() ? 3 : 6,
         name: "Público General",
       },
     ],
@@ -49,35 +51,66 @@ const info = {
       },
       {
         id: 8,
-        name: "Estudiante visitante",
+        name: "Delegaciones",
       },
       {
         id: 9,
-        name: "Delegaciones"
+        name: "Estudiantes UNJBG",
       },
-      {
-        id: 10,
-        name: "Estudiantes UNJBG"
-      }
     ],
     delegaciones: [
-      {
+      /*{
         abrev: "CIIS-XXIV-UNASAM",
         name: "Universidad Nacional Santiago Antúnez de Mayolo Huaraz",
-      },
-      {
-        abrev: "CIIS-XXIV-UNP",
-        name: "Universidad Nacional de Piura",
-      },
+      },*/
     ],
   },
 };
 
 const Page = () => {
-  const [type, setType] = useState(14);
+  const [type, setType] = useState(idEvent);
   const [scan, setScan] = useState(false);
   const [scanning, setScanning] = useState(false);
 
+  function requestInscription(dni) {
+    fetch(`${URI.reservation.qr}?type_event=${typeEvent}`, {
+      method: "POST",
+      body: JSON.stringify({ dni: dni, type }),
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(async (res) => {
+        if (res.ok)
+          Swal.fire({
+            title: "Inscripción exitosa",
+            text: `¡El usuario ahora parte de nuestro evento!`,
+            icon: "success",
+            confirmButtonText: "Aceptar",
+          });
+        else return res.json();
+      })
+      .then((res) => {
+        if (res && res.code == 409)
+          Swal.fire({
+            title: "¿Otra vez tú?",
+            text: `El usuario ya se ha inscrito anteriormente`,
+            icon: "error",
+            confirmButtonText: "Aceptar",
+          });
+      })
+      .catch((err) =>
+        Swal.fire({
+          title: "Ocurrió un error",
+          text: `Problema inesperado`,
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        })
+      )
+      .finally(() => setScanning(false));
+  }
+  
   function handleChangeModalidad(event) {
     setScan(false);
     setType(Number(event.target.value));
@@ -88,45 +121,18 @@ const Page = () => {
     if (result) {
       setScanning(true);
       const user = JSON.parse(result.text);
-
-      fetch(URI.reservation.qr + "?type_event=postmaster", {
-        method: "POST",
-        body: JSON.stringify({ dni: user.dni, type }),
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then(async (res) => {
-          if (res.ok)
-            Swal.fire({
-              title: "Inscripción exitosa",
-              text: `¡${user.name} ${user.lastname} es ahora parte de nuestro evento!`,
-              icon: "success",
-              confirmButtonText: "Aceptar",
-            });
-          else return res.json();
-        })
-        .then((res) => {
-          if (res && res.code == 409)
-            Swal.fire({
-              title: "¿Otra vez tú?",
-              text: `${user.name} ${user.lastname} ya se ha inscrito anteriormente`,
-              icon: "error",
-              confirmButtonText: "Aceptar",
-            });
-        })
-        .catch((err) =>
-          Swal.fire({
-            title: "Ocurrió un error",
-            text: `Problema inesperado`,
-            icon: "error",
-            confirmButtonText: "Aceptar",
-          })
-        )
-        .finally(() => setScanning(false));
+      requestInscription(user.dni);
     }
   }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (event.target.checkValidity()) {
+      let dni = event.target.querySelector("input").value;
+      requestInscription(dni);
+    }
+  };
 
   return (
     <>
@@ -147,21 +153,72 @@ const Page = () => {
             </div>
             <div>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={5} md={4}>
+                <Grid item xs={12} md={4}>
                   <Card>
                     <CardContent>
                       <Typography variant="h6" mb={2}>
                         Modalidad
                       </Typography>
                       <RadioGroup onChange={handleChangeModalidad}>
-                        {info[`${typeActEvent}`].planes.map((plan, index) => (
-                          <FormControlLabel key={index} value={plan.id} control={<Radio />} label={plan.name} />
+                        {info[`${typeEvent}`].planes.map((plan, index) => (
+                          <FormControlLabel
+                            key={index}
+                            value={plan.id}
+                            control={<Radio />}
+                            label={plan.name}
+                          />
                         ))}
                       </RadioGroup>
                     </CardContent>
                   </Card>
                 </Grid>
-                <Grid item xs={12} sm={7} md={4}>
+                <Grid item md={4} xs={12}>
+                  <Card>
+                    <CardContent>
+                      <Box component={"form"} onSubmit={handleSubmit}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            flexDirection: "column",
+                            gap: 1,
+                          }}
+                        >
+                          <Typography variant="h6">Inscribir por DNI</Typography>
+                        </Box>
+                        <Box my={2}>
+                          <TextField
+                            variant="standard"
+                            placeholder="p.e. 77558811"
+                            type="number"
+                            name="dni"
+                            label="Ingrese DNI"
+                            fullWidth
+                            inputProps={{
+                              pattern: "^[0-9]{8}$", // Expresión regular
+                              title: "Ingrese un DNI válido",
+                            }}
+                            required
+                          />
+                        </Box>
+                        <Button
+                          type="submit"
+                          variant="text"
+                          sx={{
+                            color: "grey",
+                            backgroundColor: "rgba(0,0,0,.02)",
+                            borderRadius: 0,
+                          }}
+                          fullWidth
+                        >
+                          <HowToRegIcon fontSize="small" />
+                          Enviar
+                        </Button>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} md={4}>
                   <Card>
                     <CardContent>
                       <Box textAlign={"center"}>
@@ -205,7 +262,7 @@ const Page = () => {
                     </CardContent>
                   </Card>
                 </Grid>
-                {typeActEvent === "ciis" && (
+                {typeEvent === "ciis" && (
                   <Grid item xs={12} sm={5} md={4}>
                     <Card>
                       <CardContent>
@@ -215,9 +272,7 @@ const Page = () => {
                         {info.ciis.delegaciones.map((delegacion, index) => (
                           <div key={index}>
                             <Typography fontWeight={"bold"}>{delegacion.abrev}</Typography>
-                            <Typography>
-                              {delegacion.name}
-                            </Typography>
+                            <Typography>{delegacion.name}</Typography>
                             <br />
                           </div>
                         ))}

@@ -1,11 +1,13 @@
 import { useCallback, useMemo, useState, useEffect } from "react";
 import Head from "next/head";
-import { Box, Container, Stack, Typography, Unstable_Grid2 as Grid } from "@mui/material";
+import { Box, Container, Stack, Typography, Unstable_Grid2 as Grid, Button, SvgIcon } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import { TallerTable } from "src/sections/taller/taller-table";
 import URI from "src/contexts/url-context";
 import { saveOnChest } from "src/utils/chest";
 import { useRouter } from "next/router";
+import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
+import NextLink from "next/link";
 // import { useFormik } from 'formik';
 
 const Page = () => {
@@ -68,6 +70,21 @@ const Page = () => {
           <Stack spacing={3}>
             <div>
               <Typography variant="h4">Lista de talleres</Typography>
+            </div>
+            <div>
+              <Button
+                component={NextLink}
+                href="/taller/add"
+                startIcon={
+                  <SvgIcon fontSize="small">
+                    <PlusIcon />
+                  </SvgIcon>
+                }
+                sx={{ mt: 3 }}
+                variant="contained"
+              >
+                Nuevo
+              </Button>
             </div>
             <div>
               <Grid xs={12} md={6} lg={8}>
