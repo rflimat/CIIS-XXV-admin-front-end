@@ -27,7 +27,7 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 const tallerId = async (taller) => {
   try {
-    let unTaller = await fetch(`${URI.taller}/${taller.id}`, {
+    let unTaller = await fetch(`${URI.taller.src}/${taller.id}`, {
       method: "GET",
       credentials: "include",
     });
@@ -57,7 +57,7 @@ export const TablaInscritos = ({ primTaller }) => {
     buttonCheck.classList.add("Mui-disabled");
     buttonAlert.classList.add("Mui-disabled");
 
-    fetch(`${URI.taller}/${taller.id}/inscription/${idx}`, {
+    fetch(`${URI.taller.src}/${taller.id}/inscription/${idx}`, {
       method: "PATCH",
       body: JSON.stringify({ state }),
       headers: {

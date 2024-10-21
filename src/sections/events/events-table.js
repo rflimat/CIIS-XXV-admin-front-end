@@ -60,10 +60,10 @@ export const EventsTable = (props) => {
                     </TableCell>
                     <TableCell>{event.place}</TableCell>
                     <TableCell>
-                      {format(new Date(event.start_date), 'dd/MM/yyyy')}
+                      {new Date(event.start_date).toLocaleDateString()}
                     </TableCell>
                     <TableCell>
-                      {format(new Date(event.exp_date), 'dd/MM/yyyy')}
+                      {new Date(event.exp_date).toLocaleDateString()}
                     </TableCell>
                     <TableCell>{event.active ? "Si" : "No"}</TableCell>
                     <TableCell>

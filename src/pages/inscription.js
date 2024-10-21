@@ -46,16 +46,24 @@ const info = {
   ciis: {
     planes: [
       {
-        id: 7,
+        id: new Date("2024-11-10T05:00:00Z") > new Date() ? 7 : 12,
         name: "Público General",
       },
       {
-        id: 8,
+        id: new Date("2024-11-10T05:00:00Z") > new Date() ? 8 : 13,
         name: "Delegaciones",
       },
       {
-        id: 9,
+        id: new Date("2024-11-10T05:00:00Z") > new Date() ? 9 : 14,
+        name: "Docentes UNJBG",
+      },
+      {
+        id: new Date("2024-11-10T05:00:00Z") > new Date() ? 10 : 15,
         name: "Estudiantes UNJBG",
+      },
+      {
+        id: new Date("2024-11-10T05:00:00Z") > new Date() ? 11 : 16,
+        name: "Estudiantes ESIS",
       },
     ],
     delegaciones: [

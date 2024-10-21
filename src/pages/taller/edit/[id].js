@@ -86,7 +86,7 @@ const Page = () => {
             </div>
             <div>
               <Grid xs={12} md={6} lg={8}>
-              {!loading && <TallerForm taller={{name: "Deep Learning Generative by IA"}} handleSubmit={handleSubmit} />}
+              {!loading && <TallerForm taller={taller} handleSubmit={handleSubmit} />}
               </Grid>
               <CustomDialog
                 open={successDialog.open}

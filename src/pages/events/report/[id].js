@@ -2,7 +2,7 @@ import Head from "next/head";
 import { Box, Container, Stack, Typography, Unstable_Grid2 as Grid, Button } from "@mui/material";
 import CustomDialog from "src/components/dialog";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import URI from "src/contexts/url-context";
+import URI, { domain } from "src/contexts/url-context";
 import { useRouter } from "next/router";
 import { useDialog } from "src/hooks/use-dialog";
 
@@ -51,6 +51,19 @@ const Page = () => {
     }
   };
 
+  const handleGenerateReportTalleres = async () => {
+    try {
+      let data = await fetch(`${URI.events.one(id).reports.taller}`, {
+        method: "GET",
+        credentials: "include",
+      });
+      successDialog.handleOpen();
+    } catch (error) {
+      console.log(error);
+      errorDialog.handleOpen();
+    }
+  };
+
   return (
     <>
       <Head>
@@ -76,18 +89,36 @@ const Page = () => {
                   <Button type="button" variant="contained" style={{marginLeft: 10}} onClick={handleGenerateReportSpeakers}>
                     Generar
                   </Button>
+                  <span style={{marginLeft: 20}}>
+                    <a href={domain + `/reports/${id}/speakers.json`} target="_blank" rel="noreferrer">{domain + `/reports/${id}/speakers.json`}</a>
+                  </span>
                 </Grid>
                 <Grid xs={12}>
                   <span>Reporte cronograma de conferencias</span>
                   <Button type="button" variant="contained" style={{marginLeft: 10}} onClick={handleGenerateReportConferences}>
                     Generar
                   </Button>
+                  <span style={{marginLeft: 20}}>
+                    <a href={domain + `/reports/${id}/cronograma.json`} target="_blank" rel="noreferrer">{domain + `/reports/${id}/cronograma.json`}</a>
+                  </span>
                 </Grid>
                 <Grid xs={12}>
                   <span>Reporte de sponsors</span>
                   <Button type="button" variant="contained" style={{marginLeft: 10}} onClick={handleGenerateReportSponsors}>
                     Generar
                   </Button>
+                  <span style={{marginLeft: 20}}>
+                    <a href={domain + `/reports/${id}/sponsors.json`} target="_blank" rel="noreferrer">{domain + `/reports/${id}/sponsors.json`}</a>
+                  </span>
+                </Grid>
+                <Grid xs={12}>
+                  <span>Reporte de talleres</span>
+                  <Button type="button" variant="contained" style={{marginLeft: 10}} onClick={handleGenerateReportTalleres}>
+                    Generar
+                  </Button>
+                  <span style={{marginLeft: 20}}>
+                    <a href={domain + `/reports/${id}/talleres.json`} target="_blank" rel="noreferrer">{domain + `/reports/${id}/talleres.json`}</a>
+                  </span>
                 </Grid>
               </Grid>
 

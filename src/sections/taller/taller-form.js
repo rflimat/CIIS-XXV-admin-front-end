@@ -29,17 +29,14 @@ export const TallerForm = ({ taller, handleSubmit = () => {} }) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (taller && taller.active) {
-      setIsActive(Number(taller.active));
+    if (taller && taller.relatedEvent) {
+      setEvent(Number(taller.relatedEvent));
     }
-    if (taller && taller.idEvent) {
-      setEvent(Number(taller.idEvent));
+    if (taller && taller.relatedSpeaker) {
+      setSpeaker(Number(taller.relatedSpeaker.id_speaker));
     }
-    if (taller && taller.idSpeaker) {
-      setSpeaker(Number(taller.idSpeaker));
-    }
-    if (taller && taller.isMorning) {
-      setIsMorning(Number(taller.isMorning));
+    if (taller && taller.is_morning) {
+      setIsMorning(Number(taller.is_morning));
     }
   }, [taller]);
 
@@ -121,10 +118,10 @@ export const TallerForm = ({ taller, handleSubmit = () => {} }) => {
                       <TextField
                         fullWidth
                         label="Fecha y Hora Inicio"
-                        name="startDateTime"
+                        name="start"
                         type="datetime-local"
                         defaultValue={
-                          taller && format(new Date(taller.starDateTime), "yyyy-MM-dd HH:mm:ss")
+                          taller && format(new Date(taller.start), "yyyy-MM-dd HH:mm:ss")
                         }
                         InputLabelProps={{ shrink: true }}
                         required
@@ -134,11 +131,9 @@ export const TallerForm = ({ taller, handleSubmit = () => {} }) => {
                       <TextField
                         fullWidth
                         label="Fecha y Hora Fin"
-                        name="expDateTime"
+                        name="end"
                         type="datetime-local"
-                        defaultValue={
-                          taller && format(new Date(taller.expDateTime), "yyyy-MM-dd HH:mm:ss")
-                        }
+                        defaultValue={taller && format(new Date(taller.end), "yyyy-MM-dd HH:mm:ss")}
                         InputLabelProps={{ shrink: true }}
                         required
                       />
@@ -165,36 +160,37 @@ export const TallerForm = ({ taller, handleSubmit = () => {} }) => {
                       <TextField
                         fullWidth
                         label="Tickets"
-                        name="price"
+                        name="tickets"
                         type="text"
                         defaultValue={taller && taller.tickets}
                         required
                       />
                     </Grid>
+                    <Grid xs={12} md={2}>
+                      <TextField
+                        fullWidth
+                        label="Tickets Disponibles"
+                        name="avaible"
+                        type="text"
+                        defaultValue={taller && taller.avaible}
+                        disabled={taller}
+                      />
+                    </Grid>
+
                     {taller ? (
-                      <>
-                        <Grid xs={12} md={2}>
-                          <TextField
-                            fullWidth
-                            label="Tickets Disponibles"
-                            name="avaible"
-                            type="text"
-                            defaultValue={taller && taller.avaible}
-                            disabled
-                          />
-                        </Grid>
-                        <Grid xs={12} md={2}>
-                          <TextField
-                            fullWidth
-                            label="Inscritos"
-                            name="avaible"
-                            type="text"
-                            defaultValue={taller && taller.tickets - taller.avaible}
-                            disabled
-                          />
-                        </Grid>
-                      </>
-                    ) : <Grid xs={12} md={4}></Grid>}
+                      <Grid xs={12} md={2}>
+                        <TextField
+                          fullWidth
+                          label="Inscritos"
+                          name="avaible"
+                          type="text"
+                          defaultValue={taller && taller.tickets - taller.avaible}
+                          disabled
+                        />
+                      </Grid>
+                    ) : (
+                      <Grid xs={12} md={2}></Grid>
+                    )}
                     <Grid xs={12} md={4}>
                       <FormControl sx={{ width: "100%" }}>
                         <InputLabel id="demo-multiple-chip-label">Evento</InputLabel>
@@ -235,6 +231,26 @@ export const TallerForm = ({ taller, handleSubmit = () => {} }) => {
                         renderInput={(params) => <TextField {...params} label="Ponente" />}
                         required
                       ></Autocomplete>
+                    </Grid>
+                    <Grid xs={12} md={3}>
+                      <FormControl sx={{ width: "100%" }}>
+                        <InputLabel id="demo-multiple-chip-label">Turno</InputLabel>
+                        <Select
+                          fullWidth
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          name="isMorning"
+                          value={isMorning}
+                          label="Turno"
+                          onChange={(event) => {
+                            setIsMorning(Number(event.target.value));
+                          }}
+                          required
+                        >
+                          <MenuItem value={1}>Mañana</MenuItem>
+                          <MenuItem value={0}>Tarde</MenuItem>
+                        </Select>
+                      </FormControl>
                     </Grid>
                   </Grid>
                 </Box>

@@ -33,6 +33,9 @@ import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
 import FeedIcon from "@mui/icons-material/Feed";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { FileUpload, Pageview } from "@mui/icons-material";
+import EditIcon from '@mui/icons-material/Edit';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { format } from "date-fns";
 
 export const TallerTable = (props) => {
   const {
@@ -46,6 +49,8 @@ export const TallerTable = (props) => {
     rowsPerPage = 0,
     selected = [],
     tallerId = function () {},
+    tallerIdEdit = function () {},
+    deleteTaller = function () {},
   } = props;
 
   const typeIns = ["", "Legado de la ESIS", "Estudiante externo", "Publico general"];
@@ -117,34 +122,40 @@ export const TallerTable = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer, idx) => {
+              {items.map((taller, idx) => {
                 let slides = [];
-                slides.push({ src: domain + `/api/v2/taller/${customer.id}` });
+                slides.push({ src: domain + `/api/v2/taller/${taller.id}` });
 
-                customer.slides = slides;
+                taller.slides = slides;
                 // console.log(slides);
 
                 return (
-                  <TableRow hover key={customer.id}>
+                  <TableRow hover key={taller.id}>
                     <TableCell>
                       <Stack alignItems="center" direction="row" spacing={2}>
-                        <Typography variant="subtitle2">{customer.name}</Typography>
+                        <Typography variant="subtitle2">{taller.name}</Typography>
                       </Stack>
                     </TableCell>                    
-                    <TableCell>{customer.tickets}</TableCell>
-                    <TableCell>{customer.avaible}</TableCell>
-                    <TableCell>{customer.tickets - customer.avaible}</TableCell>
-                    <TableCell>{customer.price}</TableCell>
+                    <TableCell>{taller.tickets}</TableCell>
+                    <TableCell>{taller.avaible}</TableCell>
+                    <TableCell>{taller.tickets - taller.avaible}</TableCell>
+                    <TableCell>S/.{taller.price}</TableCell>
                     <TableCell>
-                      {customer.relatedSpeaker.name_speaker}{" "}
-                      {customer.relatedSpeaker.lastname_speaker}
+                      {taller.relatedSpeaker.name_speaker}{" "}
+                      {taller.relatedSpeaker.lastname_speaker}
                     </TableCell>
-                    <TableCell style={{ width: "120px" }}>{customer.date}</TableCell>
-                    <TableCell>{customer.start}</TableCell>
-                    <TableCell>{customer.end}</TableCell>
+                    <TableCell style={{ width: "120px" }}>{new Date(taller.date).toLocaleDateString()}</TableCell>
+                    <TableCell>{format(new Date(taller.start), 'dd/MM/yyyy HH:mm:ss')}</TableCell>
+                    <TableCell>{format(new Date(taller.end), 'dd/MM/yyyy HH:mm:ss')}</TableCell>
                     <TableCell>
-                      <IconButton onClick={() => tallerId(customer)}>
+                      <IconButton onClick={() => tallerId(taller)}>
                         <Pageview></Pageview>
+                      </IconButton>
+                      <IconButton onClick={() => tallerIdEdit(taller)}>
+                        <EditIcon></EditIcon>
+                      </IconButton>
+                      <IconButton onClick={() => deleteTaller(taller)}>
+                        <HighlightOffIcon></HighlightOffIcon>
                       </IconButton>
                     </TableCell>
                   </TableRow>
