@@ -50,6 +50,7 @@ const URI = {
         speakers: `${domain}/api/v2/events/${id}/speakers/json`,
         conferences: `${domain}/api/v2/events/${id}/conferences/json`,
         sponsors: `${domain}/api/v2/events/${id}/sponsors/json`,
+        taller: `${domain}/api/v2/events/${id}/taller/json`,
       }
     }),
   },
